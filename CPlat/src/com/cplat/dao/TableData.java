@@ -23,11 +23,11 @@ public class TableData {
     // 4. Starting Transaction
     Transaction transaction = session.beginTransaction();
     
-    public List<?> getData(){
+    public List<?> getData(String selectQuery){
 		List<?> list = null;
 
     	try {
-    		String sql = "SELECT * FROM customerdetails";
+    		String sql = selectQuery;
             SQLQuery query = session.createSQLQuery(sql);
             query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
           
