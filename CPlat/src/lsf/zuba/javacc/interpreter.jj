@@ -1,0 +1,60 @@
+PARSER_BEGIN(SyntaxChecker)
+
+import java.util.ArrayList;
+
+public class SyntaxChecker {
+ static ChartParameter chart_obj = new ChartParameter();
+    public static void main(String[] args) {
+   
+        try {
+            new SyntaxChecker(new java.io.StringReader(args[0])).Visualization();
+            System.out.println("Syntax is okay");
+            System.out.println("result : "+chart_obj);
+        } catch (Throwable e) {
+            // Catching Throwable is ugly but JavaCC throws Error objects!
+            System.out.println("Syntax check failed: " + e.getMessage());
+        }
+    }
+}
+
+PARSER_END(SyntaxChecker)
+
+SKIP:  { " "| "\t" | "\n" | "\r" }    
+
+SKIP:
+{
+    < "{" > : ML_COMMENT_STATE
+}
+<ML_COMMENT_STATE> SKIP :
+{
+	<"}"> : DEFAULT | <~[]>
+}
+
+
+// basic tokens 
+                
+TOKEN: { "DRAW"|"CHART"|"FOR"|"WHICH"|"TO"|"INCLUDING"|"X"|"Y"|"Y2"| "["|"]"|","|":" } 
+
+
+TOKEN: {
+	<Chart_type: "bar" | "line" | "pie"> |
+	<Db_type:"mysql"|"sql">| 
+	<Axis_type:"timeseries"|"category">
+	
+}
+
+TOKEN: {<String: ["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z"])*> }
+
+
+
+void Visualization(): {} { "DRAW" chart_definition()<EOF> } 
+void chart_definition(): {Token a;Token b;} { "CHART" a=<Chart_type> "TO" b=<String>  Chart_content()
+{ chart_obj.setChartType(""+a.toString()); chart_obj.setBindTo(""+b.toString());}
+ }
+void Chart_content(): {} { "FOR" ("(" <Db_type>")")? Chart_axis()
+}
+void Chart_axis(): {Token a;Token b;} { "WHICH" "X" ":" a=<String> "," "Y" ":" b=<String>{ chart_obj.setX(null, null,""+a.toString()); chart_obj.setY(null, null,""+b.toString());}
+}
+
+
+
