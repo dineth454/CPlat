@@ -9,7 +9,7 @@
 <link href="CSS/style.css" rel="stylesheet">
 <!-- Web Fonts -->
 <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet" type="text/css">
-
+<script src="JS/jquery-2.1.4.min.js"></script> 
   <!-- Load c3.css -->
   <link href="CSS/c3.css" rel="stylesheet" type="text/css">
   
@@ -59,29 +59,24 @@
   <div class="container">
  	 <div class="row">
 			<div class="col-md-12">
+			<form id="areaform" method="GET" action="testgraph.html">
 				<div class="form-group">
  
 					<label for="code" class="col-sm-12 control-label">Script:</label>
 					 
 						<div class="col-md-12">
 					 
-							<textarea class="form-control inputstl" rows="10">{ "type" : "Bar",
-  "bind" : "Draw_me" , 
-  "title" : "Price chart" , 
-  "subTitle" : "price behavior within the last decade" ,
-  "query" : "SELECT date, Price FROM price_table",
-  "x": [ { "type" : "timeseries", "tick_count" : 10} ],
-   "other" : [{"c3.tooltip": "enable", "c3.subchart" : "enable"} ]
-} 
-							</textarea>
+							<textarea name="txtarea" id="txtarea" class="form-control inputstl" rows="10" ></textarea>
 					 
 						</div>
 						<div class="col-md-offset-11">
-								<input id="create" class="btn btn-warning" type="submit" value="Send">
+								<!-- button  class="btn btn-warning" onclick="prettyPrint()">Pretty Print</button-->
+								<input id="create" onclick="createJSON()" class="btn btn-warning" type="button" value="Show">
 						</div>
 						
  						
 				</div>
+				</form>
 			
 			</div> 
   
@@ -133,9 +128,37 @@ setTimeout(function () {
 
 </script>
 
+<script type="text/javascript">
+function createJSON(){
+		var area = document.getElementById('txtarea').value;
+		if(area!=""){
+			//var obj = JSON.parse(area);//This is the JSON OBJECT
+			//sendData(obj);
+		    document.getElementById("areaform").submit();
+		    
+		}
+		else{
+			alert("Please Fill It")
+			//$("#txtarea").attr('required',true);
+		}
+    
+}
+
+function sendData(obj) {
+	
+    $.ajax({
+        url: 'cData/helloworld',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(obj),
+        dataType: 'json'
+    });
+}
+
+</script>
 
 
-<script src="JS/jquery-2.1.4.min.js"></script> 
+
 <script src="JS/bootstrap.min.js"></script> 
 </body>
 </html>
