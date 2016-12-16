@@ -6,270 +6,230 @@ import java.util.ArrayList;
 import lsf.zuba.vizobj.ChartParameter;
 
 public class SyntaxChecker implements SyntaxCheckerConstants {
-	
-	static ChartParameter chart_obj = new ChartParameter();
-	
+ static ChartParameter chart_obj = new ChartParameter();
+    public static void main(String[] args) {
 
-	static final public ChartParameter Visualization() throws ParseException {
-		jj_consume_token(8);
-		chart_definition();
-		jj_consume_token(0);
-		return chart_obj;
-		
-	}
+        try {
+            new SyntaxChecker(new java.io.StringReader(args[0])).Visualization();
+            System.out.println("Syntax is okay");
+            System.out.println("result : "+chart_obj);
+        } catch (Throwable e) {
+            // Catching Throwable is ugly but JavaCC throws Error objects!
+            System.out.println("Syntax check failed: " + e.getMessage());
+        }
+    }
 
-	static final public void chart_definition() throws ParseException {
-		Token a;
-		Token b;
-		jj_consume_token(9);
-		a = jj_consume_token(Chart_type);
-		jj_consume_token(12);
-		b = jj_consume_token(String);
-		Chart_content();
-		chart_obj.setChartType("" + a.toString());
-		chart_obj.setBindTo("" + b.toString());
-	}
+  final public ChartParameter Visualization() throws ParseException {
+    jj_consume_token(8);
+    chart_definition();
+    jj_consume_token(0);
+    return chart_obj;
+  }
 
-	static final public void Chart_content() throws ParseException {
-		jj_consume_token(10);
-		switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
-		case 25:
-			jj_consume_token(25);
-			jj_consume_token(Db_type);
-			jj_consume_token(26);
-			break;
-		default:
-			jj_la1[0] = jj_gen;
-			;
-		}
-		Chart_axis();
-	}
+  final public void chart_definition() throws ParseException {
+                          Token a;Token b;
+    jj_consume_token(9);
+    a = jj_consume_token(Chart_type);
+    jj_consume_token(12);
+    b = jj_consume_token(String);
+    Chart_content();
+  chart_obj.setChartType(""+a.toString()); chart_obj.setBindTo(""+b.toString());
+  }
 
-	static final public void Chart_axis() throws ParseException {
-		Token a;
-		Token b;
-		jj_consume_token(11);
-		jj_consume_token(14);
-		jj_consume_token(20);
-		a = jj_consume_token(String);
-		jj_consume_token(19);
-		jj_consume_token(15);
-		jj_consume_token(20);
-		b = jj_consume_token(String);
-		chart_obj.setX(null, null, "" + a.toString());
-		chart_obj.setY(null, null, "" + b.toString());
-	}
+  final public void Chart_content() throws ParseException {
+    jj_consume_token(10);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case 25:
+      jj_consume_token(25);
+      jj_consume_token(Db_type);
+      jj_consume_token(26);
+      break;
+    default:
+      jj_la1[0] = jj_gen;
+      ;
+    }
+    Chart_axis();
+  }
 
-	static private boolean jj_initialized_once = false;
-	/** Generated Token Manager. */
-	static public SyntaxCheckerTokenManager token_source;
-	static SimpleCharStream jj_input_stream;
-	/** Current token. */
-	static public Token token;
-	/** Next token. */
-	static public Token jj_nt;
-	static private int jj_ntk;
-	static private int jj_gen;
-	static final private int[] jj_la1 = new int[1];
-	static private int[] jj_la1_0;
-	static {
-		jj_la1_init_0();
-	}
+  final public void Chart_axis() throws ParseException {
+                    Token a;Token b;
+    jj_consume_token(11);
+    jj_consume_token(14);
+    jj_consume_token(20);
+    a = jj_consume_token(String);
+    jj_consume_token(19);
+    jj_consume_token(15);
+    jj_consume_token(20);
+    b = jj_consume_token(String);
+                                                                                           chart_obj.setX(null, null,""+a.toString()); chart_obj.setY(null, null,""+b.toString());
+  }
 
-	private static void jj_la1_init_0() {
-		jj_la1_0 = new int[] { 0x2000000, };
-	}
+  /** Generated Token Manager. */
+  public SyntaxCheckerTokenManager token_source;
+  SimpleCharStream jj_input_stream;
+  /** Current token. */
+  public Token token;
+  /** Next token. */
+  public Token jj_nt;
+  private int jj_ntk;
+  private int jj_gen;
+  final private int[] jj_la1 = new int[1];
+  static private int[] jj_la1_0;
+  static {
+      jj_la1_init_0();
+   }
+   private static void jj_la1_init_0() {
+      jj_la1_0 = new int[] {0x2000000,};
+   }
 
-	/** Constructor with InputStream. */
-	public SyntaxChecker(java.io.InputStream stream) {
-		this(stream, null);
-	}
+  /** Constructor with InputStream. */
+  public SyntaxChecker(java.io.InputStream stream) {
+     this(stream, null);
+  }
+  /** Constructor with InputStream and supplied encoding */
+  public SyntaxChecker(java.io.InputStream stream, String encoding) {
+    try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
+    token_source = new SyntaxCheckerTokenManager(jj_input_stream);
+    token = new Token();
+    jj_ntk = -1;
+    jj_gen = 0;
+    for (int i = 0; i < 1; i++) jj_la1[i] = -1;
+  }
 
-	/** Constructor with InputStream and supplied encoding */
-	public SyntaxChecker(java.io.InputStream stream, String encoding) {
-		if (jj_initialized_once) {
-			System.out.println("ERROR: Second call to constructor of static parser.  ");
-			System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-			System.out.println("       during parser generation.");
-			throw new Error();
-		}
-		jj_initialized_once = true;
-		try {
-			jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1);
-		} catch (java.io.UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-		token_source = new SyntaxCheckerTokenManager(jj_input_stream);
-		token = new Token();
-		jj_ntk = -1;
-		jj_gen = 0;
-		for (int i = 0; i < 1; i++)
-			jj_la1[i] = -1;
-	}
+  /** Reinitialise. */
+  public void ReInit(java.io.InputStream stream) {
+     ReInit(stream, null);
+  }
+  /** Reinitialise. */
+  public void ReInit(java.io.InputStream stream, String encoding) {
+    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
+    token_source.ReInit(jj_input_stream);
+    token = new Token();
+    jj_ntk = -1;
+    jj_gen = 0;
+    for (int i = 0; i < 1; i++) jj_la1[i] = -1;
+  }
 
-	/** Reinitialise. */
-	static public void ReInit(java.io.InputStream stream) {
-		ReInit(stream, null);
-	}
+  /** Constructor. */
+  public SyntaxChecker(java.io.Reader stream) {
+    jj_input_stream = new SimpleCharStream(stream, 1, 1);
+    token_source = new SyntaxCheckerTokenManager(jj_input_stream);
+    token = new Token();
+    jj_ntk = -1;
+    jj_gen = 0;
+    for (int i = 0; i < 1; i++) jj_la1[i] = -1;
+  }
 
-	/** Reinitialise. */
-	static public void ReInit(java.io.InputStream stream, String encoding) {
-		try {
-			jj_input_stream.ReInit(stream, encoding, 1, 1);
-		} catch (java.io.UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-		token_source.ReInit(jj_input_stream);
-		token = new Token();
-		jj_ntk = -1;
-		jj_gen = 0;
-		for (int i = 0; i < 1; i++)
-			jj_la1[i] = -1;
-	}
+  /** Reinitialise. */
+  public void ReInit(java.io.Reader stream) {
+    jj_input_stream.ReInit(stream, 1, 1);
+    token_source.ReInit(jj_input_stream);
+    token = new Token();
+    jj_ntk = -1;
+    jj_gen = 0;
+    for (int i = 0; i < 1; i++) jj_la1[i] = -1;
+  }
 
-	/** Constructor. */
-	public SyntaxChecker(java.io.Reader stream) {
-		if (jj_initialized_once) {
-			System.out.println("ERROR: Second call to constructor of static parser. ");
-			System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-			System.out.println("       during parser generation.");
-			throw new Error();
-		}
-		jj_initialized_once = true;
-		jj_input_stream = new SimpleCharStream(stream, 1, 1);
-		token_source = new SyntaxCheckerTokenManager(jj_input_stream);
-		token = new Token();
-		jj_ntk = -1;
-		jj_gen = 0;
-		for (int i = 0; i < 1; i++)
-			jj_la1[i] = -1;
-	}
+  /** Constructor with generated Token Manager. */
+  public SyntaxChecker(SyntaxCheckerTokenManager tm) {
+    token_source = tm;
+    token = new Token();
+    jj_ntk = -1;
+    jj_gen = 0;
+    for (int i = 0; i < 1; i++) jj_la1[i] = -1;
+  }
 
-	/** Reinitialise. */
-	static public void ReInit(java.io.Reader stream) {
-		jj_input_stream.ReInit(stream, 1, 1);
-		token_source.ReInit(jj_input_stream);
-		token = new Token();
-		jj_ntk = -1;
-		jj_gen = 0;
-		for (int i = 0; i < 1; i++)
-			jj_la1[i] = -1;
-	}
+  /** Reinitialise. */
+  public void ReInit(SyntaxCheckerTokenManager tm) {
+    token_source = tm;
+    token = new Token();
+    jj_ntk = -1;
+    jj_gen = 0;
+    for (int i = 0; i < 1; i++) jj_la1[i] = -1;
+  }
 
-	/** Constructor with generated Token Manager. */
-	public SyntaxChecker(SyntaxCheckerTokenManager tm) {
-		if (jj_initialized_once) {
-			System.out.println("ERROR: Second call to constructor of static parser. ");
-			System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-			System.out.println("       during parser generation.");
-			throw new Error();
-		}
-		jj_initialized_once = true;
-		token_source = tm;
-		token = new Token();
-		jj_ntk = -1;
-		jj_gen = 0;
-		for (int i = 0; i < 1; i++)
-			jj_la1[i] = -1;
-	}
+  private Token jj_consume_token(int kind) throws ParseException {
+    Token oldToken;
+    if ((oldToken = token).next != null) token = token.next;
+    else token = token.next = token_source.getNextToken();
+    jj_ntk = -1;
+    if (token.kind == kind) {
+      jj_gen++;
+      return token;
+    }
+    token = oldToken;
+    jj_kind = kind;
+    throw generateParseException();
+  }
 
-	/** Reinitialise. */
-	public void ReInit(SyntaxCheckerTokenManager tm) {
-		token_source = tm;
-		token = new Token();
-		jj_ntk = -1;
-		jj_gen = 0;
-		for (int i = 0; i < 1; i++)
-			jj_la1[i] = -1;
-	}
 
-	static private Token jj_consume_token(int kind) throws ParseException {
-		Token oldToken;
-		if ((oldToken = token).next != null)
-			token = token.next;
-		else
-			token = token.next = token_source.getNextToken();
-		jj_ntk = -1;
-		if (token.kind == kind) {
-			jj_gen++;
-			return token;
-		}
-		token = oldToken;
-		jj_kind = kind;
-		throw generateParseException();
-	}
+/** Get the next Token. */
+  final public Token getNextToken() {
+    if (token.next != null) token = token.next;
+    else token = token.next = token_source.getNextToken();
+    jj_ntk = -1;
+    jj_gen++;
+    return token;
+  }
 
-	/** Get the next Token. */
-	static final public Token getNextToken() {
-		if (token.next != null)
-			token = token.next;
-		else
-			token = token.next = token_source.getNextToken();
-		jj_ntk = -1;
-		jj_gen++;
-		return token;
-	}
+/** Get the specific Token. */
+  final public Token getToken(int index) {
+    Token t = token;
+    for (int i = 0; i < index; i++) {
+      if (t.next != null) t = t.next;
+      else t = t.next = token_source.getNextToken();
+    }
+    return t;
+  }
 
-	/** Get the specific Token. */
-	static final public Token getToken(int index) {
-		Token t = token;
-		for (int i = 0; i < index; i++) {
-			if (t.next != null)
-				t = t.next;
-			else
-				t = t.next = token_source.getNextToken();
-		}
-		return t;
-	}
+  private int jj_ntk() {
+    if ((jj_nt=token.next) == null)
+      return (jj_ntk = (token.next=token_source.getNextToken()).kind);
+    else
+      return (jj_ntk = jj_nt.kind);
+  }
 
-	static private int jj_ntk() {
-		if ((jj_nt = token.next) == null)
-			return (jj_ntk = (token.next = token_source.getNextToken()).kind);
-		else
-			return (jj_ntk = jj_nt.kind);
-	}
+  private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
+  private int[] jj_expentry;
+  private int jj_kind = -1;
 
-	static private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
-	static private int[] jj_expentry;
-	static private int jj_kind = -1;
+  /** Generate ParseException. */
+  public ParseException generateParseException() {
+    jj_expentries.clear();
+    boolean[] la1tokens = new boolean[27];
+    if (jj_kind >= 0) {
+      la1tokens[jj_kind] = true;
+      jj_kind = -1;
+    }
+    for (int i = 0; i < 1; i++) {
+      if (jj_la1[i] == jj_gen) {
+        for (int j = 0; j < 32; j++) {
+          if ((jj_la1_0[i] & (1<<j)) != 0) {
+            la1tokens[j] = true;
+          }
+        }
+      }
+    }
+    for (int i = 0; i < 27; i++) {
+      if (la1tokens[i]) {
+        jj_expentry = new int[1];
+        jj_expentry[0] = i;
+        jj_expentries.add(jj_expentry);
+      }
+    }
+    int[][] exptokseq = new int[jj_expentries.size()][];
+    for (int i = 0; i < jj_expentries.size(); i++) {
+      exptokseq[i] = jj_expentries.get(i);
+    }
+    return new ParseException(token, exptokseq, tokenImage);
+  }
 
-	/** Generate ParseException. */
-	static public ParseException generateParseException() {
-		jj_expentries.clear();
-		boolean[] la1tokens = new boolean[27];
-		if (jj_kind >= 0) {
-			la1tokens[jj_kind] = true;
-			jj_kind = -1;
-		}
-		for (int i = 0; i < 1; i++) {
-			if (jj_la1[i] == jj_gen) {
-				for (int j = 0; j < 32; j++) {
-					if ((jj_la1_0[i] & (1 << j)) != 0) {
-						la1tokens[j] = true;
-					}
-				}
-			}
-		}
-		for (int i = 0; i < 27; i++) {
-			if (la1tokens[i]) {
-				jj_expentry = new int[1];
-				jj_expentry[0] = i;
-				jj_expentries.add(jj_expentry);
-			}
-		}
-		int[][] exptokseq = new int[jj_expentries.size()][];
-		for (int i = 0; i < jj_expentries.size(); i++) {
-			exptokseq[i] = jj_expentries.get(i);
-		}
-		return new ParseException(token, exptokseq, tokenImage);
-	}
+  /** Enable tracing. */
+  final public void enable_tracing() {
+  }
 
-	/** Enable tracing. */
-	static final public void enable_tracing() {
-	}
-
-	/** Disable tracing. */
-	static final public void disable_tracing() {
-	}
+  /** Disable tracing. */
+  final public void disable_tracing() {
+  }
 
 }
